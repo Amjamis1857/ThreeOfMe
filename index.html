@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOME | Three of Me</title>
+    <title>AETHER | Three of Me</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <style>
@@ -196,6 +196,25 @@
           hover:bg-white hover:text-black transition-all duration-300 glow-button">
     Bluesky
 </a>
+
+<!-- Background Audio -->
+<audio id="wind-audio" src="wind.mp3" loop autoplay></audio>
+<audio id="music-audio" src="music.mp3" loop autoplay></audio>
+
+<script>
+    // Optional: adjust volume dynamically
+    const windAudio = document.getElementById('wind-audio');
+    const musicAudio = document.getElementById('music-audio');
+
+    windAudio.volume = 0.3; // soft wind
+    musicAudio.volume = 0.5; // background music
+
+    // Play on user interaction if browser blocks autoplay
+    window.addEventListener('click', () => {
+        windAudio.play().catch(() => {});
+        musicAudio.play().catch(() => {});
+    });
+</script>
 
             
         </section>
