@@ -198,21 +198,27 @@
 </a>
 
 <!-- Background Audio -->
-<audio id="wind-audio" src="wind.mp3" loop autoplay></audio>
-<audio id="music-audio" src="music.mp3" loop autoplay></audio>
+<audio id="wind-audio" src="wind.mp3" loop></audio>
+<audio id="music-audio" src="music.mp3" loop></audio>
 
 <script>
-    // Optional: adjust volume dynamically
     const windAudio = document.getElementById('wind-audio');
     const musicAudio = document.getElementById('music-audio');
 
-    windAudio.volume = 0.3; // soft wind
-    musicAudio.volume = 0.5; // background music
+    // Set initial volumes
+    windAudio.volume = 0.3;
+    musicAudio.volume = 0.5;
 
-    // Play on user interaction if browser blocks autoplay
+    // Attempt to autoplay on load
+    window.addEventListener('load', () => {
+        windAudio.play().catch(() => console.log("Wind audio blocked"));
+        musicAudio.play().catch(() => console.log("Music audio blocked"));
+    });
+
+    // Fallback: play on first interaction if blocked
     window.addEventListener('click', () => {
-        windAudio.play().catch(() => {});
-        musicAudio.play().catch(() => {});
+        if (windAudio.paused) windAudio.play();
+        if (musicAudio.paused) musicAudio.play();
     });
 </script>
 
