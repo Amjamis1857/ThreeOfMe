@@ -3,78 +3,303 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Launch | Coming Soon</title>
+    <title>AETHER | Minimalist Future</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <style>
-        /* Basic Reset */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
 
-        /* Navigation */
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; background: #fff; }
-        .logo { font-size: 1.5rem; font-weight: bold; color: #2563eb; }
-
-        /* Hero Section */
-        .hero { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            text-align: center; 
-            padding: 100px 5%; 
-            background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
+        :root {
+            --bg-dark: #0a0a0a;
+            --accent: #ffffff;
         }
-        h1 { font-size: 3rem; margin-bottom: 1rem; color: #1e293b; }
-        p { font-size: 1.2rem; margin-bottom: 2rem; max-width: 600px; color: #64748b; }
 
-        /* Call to Action Button */
-        .cta-button {
-            background: #2563eb;
-            color: white;
-            padding: 15px 30px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background 0.3s;
+        body {
+            background-color: var(--bg-dark);
+            color: var(--accent);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
         }
-        .cta-button:hover { background: #1d4ed8; }
 
-        /* Features Section */
-        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; padding: 50px 5%; }
-        .card { padding: 20px; border: 1px solid #e2e8f0; border-radius: 10px; text-align: center; }
-        
-        /* Footer */
-        footer { text-align: center; padding: 2rem; background: #1e293b; color: white; margin-top: 50px; }
+        #dust-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .hero-title {
+            letter-spacing: -0.05em;
+            line-height: 0.9;
+        }
+
+        .glow-button {
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 rgba(255,255,255,0);
+        }
+
+        .glow-button:hover {
+            box-shadow: 0 0 20px rgba(255,255,255,0.4);
+            transform: translateY(-2px);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">BrandName</div>
-    </nav>
+    <canvas id="dust-canvas"></canvas>
 
-    <header class="hero">
-        <h1>Design your future today.</h1>
-        <p>A simple, elegant solution for your daily workflow. Stop wasting time on complex tools and start being productive.</p>
-        <a href="#" class="cta-button">Get Started for Free</a>
-    </header>
+    <div class="content-wrapper">
+        <!-- Navigation -->
+        <nav class="flex justify-between items-center px-8 py-6 fixed top-0 w-full z-50">
+            <div class="text-xl font-bold tracking-widest uppercase">Aether</div>
+            <div class="hidden md:flex space-x-8 text-sm uppercase tracking-widest opacity-60">
+                <a href="#" class="hover:opacity-100 transition">Solutions</a>
+                <a href="#" class="hover:opacity-100 transition">Design</a>
+                <a href="#" class="hover:opacity-100 transition">Vision</a>
+            </div>
+            <a href="#" class="glass px-6 py-2 rounded-full text-xs uppercase tracking-widest hover:bg-white hover:text-black transition duration-500">
+                Contact
+            </a>
+        </nav>
 
-    <section class="features">
-        <div class="card">
-            <h3>Fast Performance</h3>
-            <p>Built with speed in mind to keep you moving.</p>
-        </div>
-        <div class="card">
-            <h3>Secure Data</h3>
-            <p>Your privacy is our top priority, always.</p>
-        </div>
-        <div class="card">
-            <h3>24/7 Support</h3>
-            <p>We're here to help whenever you need us.</p>
-        </div>
-    </section>
+        <!-- Hero Section -->
+        <section class="h-screen flex flex-col justify-center items-center px-4">
+            <div class="text-center">
+                <h1 class="hero-title text-7xl md:text-9xl font-bold mb-6 animate__animated animate__fadeInUp">
+                    SILENT<br><span class="opacity-20">POWER.</span>
+                </h1>
+                <p class="text-lg md:text-xl font-light opacity-50 max-w-lg mx-auto mb-10 animate__animated animate__fadeInUp animate__delay-1s">
+                    Experience the next generation of minimalist architecture. Clean lines, dark textures, and pure efficiency.
+                </p>
+                <div class="animate__animated animate__fadeInUp animate__delay-2s">
+                    <button class="glow-button bg-white text-black px-10 py-4 rounded-full font-bold uppercase tracking-widest text-sm">
+                        Explore Genesis
+                    </button>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-10 animate-bounce opacity-30">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+            </div>
+        </section>
 
-    <footer>
-        <p>&copy; 2026 BrandName. All rights reserved.</p>
-    </footer>
+        <!-- Grid Section -->
+        <section class="py-32 px-8 max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="reveal">
+                    <h2 class="text-4xl font-bold mb-6">Designed for the <br>Deep Night.</h2>
+                    <p class="opacity-50 text-lg mb-8">We specialize in aesthetics that respect the darkness. Every pixel is crafted to provide clarity without overwhelming the senses.</p>
+                    <ul class="space-y-4">
+                        <li class="flex items-center space-x-3">
+                            <span class="h-1 w-8 bg-white opacity-20"></span>
+                            <span>Ultra-low Latency Core</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <span class="h-1 w-8 bg-white opacity-20"></span>
+                            <span>Sustainable Architecture</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="reveal glass p-8 rounded-2xl h-96 flex items-center justify-center relative overflow-hidden group">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition duration-1000"></div>
+                    <div class="floating text-6xl font-thin tracking-tighter opacity-10">AETHER-01</div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                         <div class="w-32 h-32 border border-white/10 rounded-full animate-ping"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
+        <!-- Feature Cards -->
+        <section class="py-32 px-8 bg-white/5">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-20 reveal">
+                    <h2 class="text-sm uppercase tracking-[.5em] mb-4 opacity-50">Capabilities</h2>
+                    <p class="text-4xl font-bold">The Core Components</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="reveal glass p-10 rounded-3xl hover:bg-white/10 transition group">
+                        <div class="w-12 h-12 mb-6 border border-white/20 rounded-lg flex items-center justify-center group-hover:bg-white group-hover:text-black transition duration-500">
+                            01
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Precision</h3>
+                        <p class="opacity-40">Mathematical accuracy in every interaction, ensuring a seamless user journey.</p>
+                    </div>
+                    <div class="reveal glass p-10 rounded-3xl hover:bg-white/10 transition group" style="transition-delay: 0.1s;">
+                        <div class="w-12 h-12 mb-6 border border-white/20 rounded-lg flex items-center justify-center group-hover:bg-white group-hover:text-black transition duration-500">
+                            02
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Depth</h3>
+                        <p class="opacity-40">Layers of focus that guide the eye to what matters most, reducing cognitive load.</p>
+                    </div>
+                    <div class="reveal glass p-10 rounded-3xl hover:bg-white/10 transition group" style="transition-delay: 0.2s;">
+                        <div class="w-12 h-12 mb-6 border border-white/20 rounded-lg flex items-center justify-center group-hover:bg-white group-hover:text-black transition duration-500">
+                            03
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Impact</h3>
+                        <p class="opacity-40">Leave a lasting impression with a brand identity that speaks louder than words.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-20 px-8 text-center border-t border-white/5">
+            <div class="mb-10 text-2xl font-bold tracking-[.3em] uppercase opacity-80">Aether</div>
+            <p class="opacity-30 text-xs tracking-widest">&copy; 2026 AETHER LABS. ALL RIGHTS RESERVED.</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- DUST PARTICLES LOGIC ---
+        const canvas = document.getElementById('dust-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: null, y: null };
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+
+        class Particle {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.baseX = this.x;
+                this.baseY = this.y;
+                this.density = (Math.random() * 30) + 1;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            update() {
+                // Floating movement
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                // Loop around screen
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+
+                // Mouse interaction
+                if (mouse.x != null) {
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+                    let forceDirectionX = dx / distance;
+                    let forceDirectionY = dy / distance;
+                    let maxDistance = 150;
+                    let force = (maxDistance - distance) / maxDistance;
+                    
+                    if (distance < maxDistance) {
+                        this.x -= forceDirectionX * force * 5;
+                        this.y -= forceDirectionY * force * 5;
+                    }
+                }
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = (canvas.width * canvas.height) / 10000;
+            for (let i = 0; i < count * 2; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateDust() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            requestAnimationFrame(animateDust);
+        }
+
+        initParticles();
+        animateDust();
+
+        // --- SCROLL REVEAL LOGIC ---
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+
+        window.addEventListener("scroll", reveal);
+        // Trigger once on load
+        reveal();
+    </script>
 </body>
 </html>
