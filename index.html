@@ -180,13 +180,64 @@
                 </div>
 
                 <div class="mt-16 animate__animated animate__fadeInUp animate__delay-2s">
-                   <a href="ThreeOfMe.html"
+                   <!-- Begin Reading Button -->
+<a href="ThreeOfMe.html" id="begin-reading"
    class="glow-button inline-block bg-white text-black px-12 py-5 rounded-full font-bold uppercase tracking-widest text-sm">
     Begin Reading.
 </a>
 
-                </div>
-            </div>
+<!-- Background Audio -->
+<audio id="wind-audio" src="wind.mp3" loop></audio>
+<audio id="music-audio" src="music.mp3" loop></audio>
+
+<script>
+    const windAudio = document.getElementById('wind-audio');
+    const musicAudio = document.getElementById('music-audio');
+    const button = document.getElementById('begin-reading');
+
+    windAudio.volume = 0.3;
+    musicAudio.volume = 0.5;
+
+    // Attempt autoplay on load, scroll, or click
+    function tryPlayAudio() {
+        windAudio.play().catch(() => {});
+        musicAudio.play().catch(() => {});
+    }
+
+    window.addEventListener('load', tryPlayAudio);
+    window.addEventListener('click', tryPlayAudio);
+    window.addEventListener('scroll', tryPlayAudio);
+
+    // Fade out function
+    function fadeOutAudio(audio, duration = 1000) {
+        const stepTime = 50;
+        const steps = duration / stepTime;
+        const volStep = audio.volume / steps;
+
+        const fadeInterval = setInterval(() => {
+            if (audio.volume - volStep > 0) {
+                audio.volume -= volStep;
+            } else {
+                audio.volume = 0;
+                audio.pause();
+                clearInterval(fadeInterval);
+            }
+        }, stepTime);
+    }
+
+    // On button click: fade audios then navigate
+    button.addEventListener('click', (e) => {
+        e.preventDefault(); // prevent immediate navigation
+
+        fadeOutAudio(windAudio, 1500);  // fade out over 1.5s
+        fadeOutAudio(musicAudio, 1500);
+
+        setTimeout(() => {
+            window.location.href = button.href; // go to page after fade
+        }, 1500);
+    });
+</script>
+
             
             <a href="https://bsky.app/profile/amjamis.bsky.social"
    target="_blank"
