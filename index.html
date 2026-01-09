@@ -70,15 +70,24 @@
             transform: translateY(0);
         }
 
-        .character-img {
+        /* Updated character image container for 384x640 aspect ratio */
+        .character-img-container {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
-            filter: grayscale(100%) contrast(120%);
-            transition: all 0.7s ease;
+            aspect-ratio: 384 / 640;
+            overflow: hidden;
             border-radius: 12px;
             margin-bottom: 1.5rem;
-            background: #111; /* Fallback for missing images */
+            background: #111;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .character-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(110%);
+            transition: all 0.7s ease;
         }
 
         .group:hover .character-img {
@@ -120,7 +129,7 @@
         <section class="min-h-screen flex flex-col justify-center items-center px-4 py-20">
             <div class="text-center">
                 <h1 class="hero-title text-7xl md:text-9xl font-bold mb-8 animate__animated animate__fadeInUp">
-                    THREE OF<br><span class="text-5xl md:text-7xl">ME.</span>
+                    THREE OF ME.</span>
                 </h1>
                 
                 <div class="max-w-4xl mx-auto space-y-10 animate__animated animate__fadeInUp animate__delay-1s">
@@ -167,7 +176,9 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                     <!-- Amjamis -->
                     <div class="reveal glass p-6 rounded-3xl group">
-                        <img src="Amjamis.png" alt="Amjamis" class="character-img" onerror="this.src='https://via.placeholder.com/400x300/111/333?text=Amjamis'">
+                        <div class="character-img-container">
+                            <img src="Amjamis.png" alt="Amjamis" class="character-img" onerror="this.src='https://via.placeholder.com/384x640/111/333?text=Amjamis'">
+                        </div>
                         <div class="px-4 pb-4">
                             <h3 class="text-2xl font-bold mb-3 tracking-tighter group-hover:text-white transition-colors">Amjamis</h3>
                             <p class="text-sm leading-relaxed opacity-40 group-hover:opacity-70 transition-opacity">Driven by a profound sense of exhaustion, he represents the part of the soul that yearns for the absolute quiet of the end.</p>
@@ -176,7 +187,9 @@
 
                     <!-- Arial -->
                     <div class="reveal glass p-6 rounded-3xl group" style="transition-delay: 0.1s;">
-                        <img src="Arial.png" alt="Arial" class="character-img" onerror="this.src='https://via.placeholder.com/400x300/111/333?text=Arial'">
+                        <div class="character-img-container">
+                            <img src="Arial.png" alt="Arial" class="character-img" onerror="this.src='https://via.placeholder.com/384x640/111/333?text=Arial'">
+                        </div>
                         <div class="px-4 pb-4">
                             <h3 class="text-2xl font-bold mb-3 tracking-tighter group-hover:text-white transition-colors">Arial</h3>
                             <p class="text-sm leading-relaxed opacity-40 group-hover:opacity-70 transition-opacity">The empathetic fragment dedicated to restoration, constantly trying to stitch together a psyche that is coming apart at the seams.</p>
@@ -185,7 +198,9 @@
 
                     <!-- MYS -->
                     <div class="reveal glass p-6 rounded-3xl group" style="transition-delay: 0.2s;">
-                        <img src="MYS.png" alt="MYS" class="character-img" onerror="this.src='https://via.placeholder.com/400x300/111/333?text=MYS'">
+                        <div class="character-img-container">
+                            <img src="MYS.png" alt="MYS" class="character-img" onerror="this.src='https://via.placeholder.com/384x640/111/333?text=MYS'">
+                        </div>
                         <div class="px-4 pb-4">
                             <h3 class="text-2xl font-bold mb-3 tracking-tighter group-hover:text-white transition-colors">MYS</h3>
                             <p class="text-sm leading-relaxed opacity-40 group-hover:opacity-70 transition-opacity">A force of pure will and ego, determined to seize the reins of the nightmare and carve a legacy out of the chaos.</p>
