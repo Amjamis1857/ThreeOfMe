@@ -209,18 +209,19 @@
     windAudio.volume = 0.3;
     musicAudio.volume = 0.5;
 
-    // Attempt to autoplay on load
-    window.addEventListener('load', () => {
-        windAudio.play().catch(() => console.log("Wind audio blocked"));
-        musicAudio.play().catch(() => console.log("Music audio blocked"));
-    });
+    function tryPlayAudio() {
+        if (windAudio.paused) windAudio.play().catch(() => {});
+        if (musicAudio.paused) musicAudio.play().catch(() => {});
+    }
 
-    // Fallback: play on first interaction if blocked
-    window.addEventListener('click', () => {
-        if (windAudio.paused) windAudio.play();
-        if (musicAudio.paused) musicAudio.play();
-    });
+    // Attempt autoplay on load
+    window.addEventListener('load', tryPlayAudio);
+
+    // Fallbacks: click or scroll
+    window.addEventListener('click', tryPlayAudio);
+    window.addEventListener('scroll', tryPlayAudio);
 </script>
+
 
             
         </section>
