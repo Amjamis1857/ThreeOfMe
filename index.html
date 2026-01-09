@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Launch | Coming Soon</title>
+    <style>
+        /* Basic Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; }
+
+        /* Navigation */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%; background: #fff; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: #2563eb; }
+
+        /* Hero Section */
+        .hero { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            text-align: center; 
+            padding: 100px 5%; 
+            background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
+        }
+        h1 { font-size: 3rem; margin-bottom: 1rem; color: #1e293b; }
+        p { font-size: 1.2rem; margin-bottom: 2rem; max-width: 600px; color: #64748b; }
+
+        /* Call to Action Button */
+        .cta-button {
+            background: #2563eb;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .cta-button:hover { background: #1d4ed8; }
+
+        /* Features Section */
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; padding: 50px 5%; }
+        .card { padding: 20px; border: 1px solid #e2e8f0; border-radius: 10px; text-align: center; }
+        
+        /* Footer */
+        footer { text-align: center; padding: 2rem; background: #1e293b; color: white; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">BrandName</div>
+    </nav>
+
+    <header class="hero">
+        <h1>Design your future today.</h1>
+        <p>A simple, elegant solution for your daily workflow. Stop wasting time on complex tools and start being productive.</p>
+        <a href="#" class="cta-button">Get Started for Free</a>
+    </header>
+
+    <section class="features">
+        <div class="card">
+            <h3>Fast Performance</h3>
+            <p>Built with speed in mind to keep you moving.</p>
+        </div>
+        <div class="card">
+            <h3>Secure Data</h3>
+            <p>Your privacy is our top priority, always.</p>
+        </div>
+        <div class="card">
+            <h3>24/7 Support</h3>
+            <p>We're here to help whenever you need us.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 BrandName. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
