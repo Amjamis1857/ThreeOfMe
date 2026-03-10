@@ -1,176 +1,338 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STORY | Three of Me</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-    body {
-        background-color: #0a0a0a;
-        color: #fff;
-        font-family: 'Inter', sans-serif;
-        margin: 0;
-        overflow-x: hidden;
-        position: relative;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STORY | Three of Me</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --accent-color: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.1);
+        }
 
-    .header {
-        text-align: center;
-        padding-top: 5rem;
-    }
+        body {
+            background-color: var(--bg-color);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            perspective: 2000px;
+        }
 
-    .header h1 {
-        font-size: 4rem;
-        font-weight: bold;
-        margin-bottom: 1rem;
-        opacity: 0;
-        animation: fadeInDown 1s ease forwards;
-    }
+        #ambient-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.4;
+        }
 
-    .header p {
-        font-size: 1.1rem;
-        opacity: 0;
-        max-width: 700px;
-        margin: 0 auto;
-        animation: fadeIn 1s ease forwards 0.5s;
-    }
+        .header {
+            position: absolute;
+            top: 8%;
+            text-align: center;
+            z-index: 10;
+            pointer-events: none;
+        }
 
-    @keyframes fadeInDown {
-        from { opacity: 0; transform: translateY(-50px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to bottom, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 0.7; }
-    }
+        .header p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
 
-    .card-grid {
-        display: flex;
-        justify-content: center;
-        gap: 2rem;
-        margin-top: 4rem;
-        flex-wrap: wrap;
-    }
+        /* 3D Cylinder Container */
+        .scene {
+            width: 100%;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+        }
 
-    .story-card {
-        background: rgba(255,255,255,0.05);
-        border: 1px solid rgba(255,255,255,0.1);
-        border-radius: 1rem;
-        padding: 2rem 3rem;
-        width: 220px;
-        text-align: center;
-        text-decoration: none;
-        color: #fff;
-        font-weight: bold;
-        opacity: 0;
-        animation: fadeInUp 1s ease forwards;
-        transition: all 0.3s ease;
-        cursor: pointer;
-    }
+        .carousel {
+            width: 300px;
+            height: 400px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+            cursor: grab;
+        }
 
-    .story-card:hover {
-        background: rgba(255,255,255,0.15);
-        transform: translateY(-8px) scale(1.05);
-        box-shadow: 0 0 25px rgba(255,255,255,0.4);
-    }
+        .carousel:active {
+            cursor: grabbing;
+        }
 
-    .story-card h2 {
-        font-size: 1.25rem;
-        margin-bottom: 0.5rem;
-    }
+        .story-card {
+            position: absolute;
+            width: 260px;
+            height: 400px;
+            left: 20px;
+            top: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2.5rem;
+            user-select: none;
+            backface-visibility: visible;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            cursor: pointer;
+            transition: border-color 0.4s, background-color 0.4s, box-shadow 0.4s;
+        }
 
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(50px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+        /* Spine detail */
+        .story-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 12px;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.1), transparent);
+        }
 
-    #string-canvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 0;
-        pointer-events: none;
-    }
-</style>
+        .story-card:hover {
+            border-color: rgba(255,255,255,0.4);
+            background-color: rgba(255,255,255,0.08);
+            box-shadow: 0 0 40px rgba(255,255,255,0.1);
+        }
+
+        .story-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+            pointer-events: none;
+            transition: transform 0.4s;
+        }
+
+        .story-card:hover h2 {
+            transform: translateY(-5px);
+        }
+
+        .story-card .tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 0.75rem;
+            pointer-events: none;
+        }
+
+        .story-card .read-btn {
+            margin-top: 1.5rem;
+            font-size: 0.75rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            display: inline-block;
+            width: fit-content;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            pointer-events: none;
+        }
+
+        .story-card:hover .read-btn {
+            background: white;
+            color: black;
+            border-color: white;
+        }
+
+        .controls {
+            position: absolute;
+            bottom: 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .hint {
+            color: rgba(255,255,255,0.2);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.5; }
+        }
+    </style>
 </head>
 <body>
 
-<canvas id="string-canvas"></canvas>
+<canvas id="ambient-canvas"></canvas>
 
 <div class="header">
-    <h1>Which story do you want to read?</h1>
-    <p>Follow the Bluesky for updates!</p>
+    <h1>Three of Me</h1>
+    <p>Archive Selection</p>
 </div>
 
-<div class="card-grid">
-    <div class="story-card" data-story="TimesEnding.html" data-delay="0.1s">
-        <h2>Times Ending.</h2>
+<div class="scene">
+    <div class="carousel" id="carousel">
+        <!-- Cards injected by JS -->
     </div>
-    <div class="story-card" data-story="Upbringing.html" data-delay="0.3s">
-        <h2>Upbringing.</h2>
-    </div>
-    <div class="story-card" data-story="Frozen.html" data-delay="0.5s">
-        <h2>Frozen.</h2>
-    </div>
+</div>
+
+<div class="controls">
+    <div class="hint">Rotate to Browse</div>
 </div>
 
 <script>
-const canvas = document.getElementById('string-canvas');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+    const stories = [
+        { title: "Times Ending.", tag: "Story I", url: "TimesEnding.html" },
+        { title: "Upbringing.", tag: "Story II", url: "Upbringing.html" },
+        { title: "Frozen.", tag: "Story III", url: "Frozen.html" },
+        { title: "Normalcy.", tag: "Story IV", url: "Normalcy.html" }
+    ];
 
-class StringLine {
-    constructor() { this.reset(); }
-    reset() {
-        this.x = Math.random() < 0.5 ? 0 : canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.len = Math.random() * 100 + 50;
-        this.speedX = (Math.random() - 0.5) * 0.5;
-        this.speedY = (Math.random() - 0.5) * 0.5;
-        this.opacity = Math.random() * 0.5 + 0.2;
-    }
-    draw() {
-        ctx.strokeStyle = `rgba(0,0,0,${this.opacity})`;
-        ctx.beginPath();
-        ctx.moveTo(this.x, this.y);
-        ctx.lineTo(this.x + this.speedX * this.len, this.y + this.speedY * this.len);
-        ctx.stroke();
-    }
-    update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        if(this.x < -50 || this.x > canvas.width+50 || this.y < -50 || this.y > canvas.height+50) this.reset();
-        this.draw();
-    }
-}
+    const carousel = document.getElementById('carousel');
+    const radius = 380; // Distance from center
+    let rotationY = 0;
+    let isDragging = false;
+    let startX = 0;
+    let velocity = 0;
+    let dragDistance = 0;
 
-let strings = Array.from({length:50}, () => new StringLine());
-function animateStrings() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    strings.forEach(s => s.update());
-    requestAnimationFrame(animateStrings);
-}
-window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-});
-animateStrings();
+    // Create and position cards
+    stories.forEach((story, i) => {
+        const card = document.createElement('div');
+        card.className = 'story-card';
 
-// Animate cards with staggered delays and make them clickable
-const cards = document.querySelectorAll('.story-card');
-cards.forEach(card => {
-    const delay = card.getAttribute('data-delay') || '0s';
-    card.style.animationDelay = delay;
-    card.addEventListener('click', () => {
-        const storyPage = card.getAttribute('data-story');
-        if(storyPage) window.location.href = storyPage;
+        // Calculate angle based on total number of items
+        const angle = (i / stories.length) * 360;
+        card.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
+
+        card.innerHTML = `
+            <div class="tag">${story.tag}</div>
+            <h2>${story.title}</h2>
+            <div class="read-btn">Enter Story</div>
+        `;
+
+        card.addEventListener('click', () => {
+            if (dragDistance < 15 && Math.abs(velocity) < 0.5) {
+                try {
+                    window.location.href = story.url;
+                } catch (err) {
+                    console.error("Navigation failed", err);
+                    window.location.assign(story.url);
+                }
+            }
+        });
+
+        carousel.appendChild(card);
     });
-});
+
+    function updateCarousel() {
+        carousel.style.transform = `rotateY(${rotationY}deg)`;
+
+        if (!isDragging) {
+            velocity *= 0.95; // Friction
+            rotationY += velocity;
+        }
+
+        requestAnimationFrame(updateCarousel);
+    }
+
+    function handleStart(x) {
+        isDragging = true;
+        startX = x;
+        dragDistance = 0;
+    }
+
+    function handleMove(currentX) {
+        if (!isDragging) return;
+        const deltaX = currentX - startX;
+        dragDistance += Math.abs(deltaX);
+        velocity = deltaX * 0.12;
+        rotationY += velocity;
+        startX = currentX;
+    }
+
+    function handleEnd() {
+        isDragging = false;
+    }
+
+    // Input Events
+    window.addEventListener('mousedown', (e) => handleStart(e.clientX));
+    window.addEventListener('mousemove', (e) => handleMove(e.clientX));
+    window.addEventListener('mouseup', handleEnd);
+
+    window.addEventListener('touchstart', (e) => handleStart(e.touches[0].clientX), {passive: true});
+    window.addEventListener('touchmove', (e) => handleMove(e.touches[0].clientX), {passive: true});
+    window.addEventListener('touchend', handleEnd);
+
+    window.addEventListener('wheel', (e) => {
+        velocity += e.deltaY * -0.008;
+    }, {passive: true});
+
+    // Start Loop
+    updateCarousel();
+
+    // Ambient background
+    const canvas = document.getElementById('ambient-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function initParticles() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        particles = Array.from({ length: 60 }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 1.2,
+            speed: Math.random() * 0.3 + 0.1,
+            opacity: Math.random() * 0.5 + 0.1
+        }));
+    }
+
+    function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+            p.y -= p.speed;
+            if (p.y < 0) p.y = canvas.height;
+            ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fill();
+        });
+        requestAnimationFrame(animateParticles);
+    }
+
+    window.addEventListener('resize', initParticles);
+    initParticles();
+    animateParticles();
 </script>
 
 </body>
