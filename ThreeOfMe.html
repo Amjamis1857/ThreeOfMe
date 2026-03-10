@@ -118,6 +118,10 @@
             background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.1), transparent);
         }
 
+<<<<<<< HEAD
+=======
+        /* Static-feel Hover: No scaling to prevent Z-index / Transform glitching */
+>>>>>>> 8b366acd8c1b8a3c99ae17eec201135175058d57
         .story-card:hover {
             border-color: rgba(255,255,255,0.4);
             background-color: rgba(255,255,255,0.08);
@@ -211,6 +215,7 @@
 
 <script>
     const stories = [
+<<<<<<< HEAD
         { title: "Times Ending.", tag: "Story I", url: "TimesEnding.html" },
         { title: "Upbringing.", tag: "Story II", url: "Upbringing.html" },
         { title: "Frozen.", tag: "Story III", url: "Frozen.html" },
@@ -219,18 +224,33 @@
 
     const carousel = document.getElementById('carousel');
     const radius = 380; // Distance from center
+=======
+        { title: "Times Ending.", tag: "Story I - Setup", url: "TimesEnding.html" },
+        { title: "Upbringing.", tag: "Story II - Religion", url: "Upbringing.html" },
+        { title: "Frozen.", tag: "Story III - Abandonment", url: "Frozen.html" }
+    ];
+
+    const carousel = document.getElementById('carousel');
+    const radius = 380;
+>>>>>>> 8b366acd8c1b8a3c99ae17eec201135175058d57
     let rotationY = 0;
     let isDragging = false;
     let startX = 0;
     let velocity = 0;
     let dragDistance = 0;
 
+<<<<<<< HEAD
     // Create and position cards
+=======
+>>>>>>> 8b366acd8c1b8a3c99ae17eec201135175058d57
     stories.forEach((story, i) => {
         const card = document.createElement('div');
         card.className = 'story-card';
 
+<<<<<<< HEAD
         // Calculate angle based on total number of items
+=======
+>>>>>>> 8b366acd8c1b8a3c99ae17eec201135175058d57
         const angle = (i / stories.length) * 360;
         card.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
 
@@ -258,7 +278,11 @@
         carousel.style.transform = `rotateY(${rotationY}deg)`;
 
         if (!isDragging) {
+<<<<<<< HEAD
             velocity *= 0.95; // Friction
+=======
+            velocity *= 0.95;
+>>>>>>> 8b366acd8c1b8a3c99ae17eec201135175058d57
             rotationY += velocity;
         }
 
@@ -284,7 +308,10 @@
         isDragging = false;
     }
 
+<<<<<<< HEAD
     // Input Events
+=======
+>>>>>>> 8b366acd8c1b8a3c99ae17eec201135175058d57
     window.addEventListener('mousedown', (e) => handleStart(e.clientX));
     window.addEventListener('mousemove', (e) => handleMove(e.clientX));
     window.addEventListener('mouseup', handleEnd);
@@ -297,10 +324,15 @@
         velocity += e.deltaY * -0.008;
     }, {passive: true});
 
+<<<<<<< HEAD
     // Start Loop
     updateCarousel();
 
     // Ambient background
+=======
+    updateCarousel();
+
+>>>>>>> 8b366acd8c1b8a3c99ae17eec201135175058d57
     const canvas = document.getElementById('ambient-canvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
