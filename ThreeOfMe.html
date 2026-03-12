@@ -48,7 +48,7 @@
 
         .header h1 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: bold;
             margin-bottom: 0.5rem;
             background: linear-gradient(to bottom, #fff, #888);
@@ -59,7 +59,7 @@
         .header p {
             font-size: 0.9rem;
             color: rgba(255, 255, 255, 0.4);
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             text-transform: uppercase;
         }
 
@@ -75,7 +75,7 @@
 
         .carousel {
             width: 300px;
-            height: 400px;
+            height: 420px;
             position: relative;
             transform-style: preserve-3d;
             transition: transform 0.1s ease-out;
@@ -88,13 +88,13 @@
 
         .story-card {
             position: absolute;
-            width: 260px;
-            height: 400px;
-            left: 20px;
+            width: 280px;
+            height: 420px;
+            left: 10px;
             top: 0;
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(15px);
             border-radius: 12px;
             display: flex;
             flex-direction: column;
@@ -102,7 +102,7 @@
             padding: 2.5rem;
             user-select: none;
             backface-visibility: visible;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
             cursor: pointer;
             transition: border-color 0.4s, background-color 0.4s, box-shadow 0.4s;
         }
@@ -112,54 +112,50 @@
             content: '';
             position: absolute;
             top: 0;
-            left: 12px;
+            left: 14px;
             width: 1px;
             height: 100%;
-            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.1), transparent);
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.15), transparent);
         }
 
-<<<<<<< HEAD
-=======
-        /* Static-feel Hover: No scaling to prevent Z-index / Transform glitching */
->>>>>>> 8b366acd8c1b8a3c99ae17eec201135175058d57
         .story-card:hover {
             border-color: rgba(255,255,255,0.4);
-            background-color: rgba(255,255,255,0.08);
-            box-shadow: 0 0 40px rgba(255,255,255,0.1);
+            background-color: rgba(255,255,255,0.07);
+            box-shadow: 0 0 50px rgba(255,255,255,0.1);
         }
 
         .story-card h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 2rem;
+            font-size: 2.2rem;
             margin-bottom: 0.5rem;
-            line-height: 1.2;
+            line-height: 1.1;
             pointer-events: none;
             transition: transform 0.4s;
         }
 
         .story-card:hover h2 {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
         }
 
         .story-card .tag {
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: rgba(255,255,255,0.4);
-            margin-bottom: 0.75rem;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 0.8rem;
             pointer-events: none;
         }
 
         .story-card .read-btn {
             margin-top: 1.5rem;
             font-size: 0.75rem;
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 0.5rem 1rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 0.6rem 1.2rem;
             border-radius: 4px;
             display: inline-block;
             width: fit-content;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             transition: all 0.3s;
             pointer-events: none;
         }
@@ -168,11 +164,12 @@
             background: white;
             color: black;
             border-color: white;
+            transform: translateY(-5px);
         }
 
         .controls {
             position: absolute;
-            bottom: 10%;
+            bottom: 8%;
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
@@ -181,16 +178,16 @@
         }
 
         .hint {
-            color: rgba(255,255,255,0.2);
-            font-size: 0.75rem;
-            letter-spacing: 2px;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.7rem;
+            letter-spacing: 3px;
             text-transform: uppercase;
             animation: pulse 3s infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 0.5; }
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
         }
     </style>
 </head>
@@ -210,47 +207,30 @@
 </div>
 
 <div class="controls">
-    <div class="hint">Rotate to Browse</div>
+    <div class="hint">Swipe or Scroll to Browse</div>
 </div>
 
 <script>
     const stories = [
-<<<<<<< HEAD
-        { title: "Times Ending.", tag: "Story I", url: "TimesEnding.html" },
-        { title: "Upbringing.", tag: "Story II", url: "Upbringing.html" },
-        { title: "Frozen.", tag: "Story III", url: "Frozen.html" },
-        { title: "Normalcy.", tag: "Story IV", url: "Normalcy.html" }
+        { title: "Times Ending.", tag: "Story I — Setup", url: "TimesEnding.html" },
+        { title: "Upbringing.", tag: "Story II — Religion", url: "Upbringing.html" },
+        { title: "Frozen.", tag: "Story III — Abandonment", url: "Frozen.html" },
+        { title: "Normalcy.", tag: "Story IV — Return", url: "Normalcy.html" }
     ];
 
     const carousel = document.getElementById('carousel');
-    const radius = 380; // Distance from center
-=======
-        { title: "Times Ending.", tag: "Story I - Setup", url: "TimesEnding.html" },
-        { title: "Upbringing.", tag: "Story II - Religion", url: "Upbringing.html" },
-        { title: "Frozen.", tag: "Story III - Abandonment", url: "Frozen.html" }
-    ];
-
-    const carousel = document.getElementById('carousel');
-    const radius = 380;
->>>>>>> 8b366acd8c1b8a3c99ae17eec201135175058d57
+    const radius = 420; // Radius of the 3D circle
     let rotationY = 0;
     let isDragging = false;
     let startX = 0;
     let velocity = 0;
     let dragDistance = 0;
 
-<<<<<<< HEAD
-    // Create and position cards
-=======
->>>>>>> 8b366acd8c1b8a3c99ae17eec201135175058d57
+    // Create and position cards in 3D space
     stories.forEach((story, i) => {
         const card = document.createElement('div');
         card.className = 'story-card';
 
-<<<<<<< HEAD
-        // Calculate angle based on total number of items
-=======
->>>>>>> 8b366acd8c1b8a3c99ae17eec201135175058d57
         const angle = (i / stories.length) * 360;
         card.style.transform = `rotateY(${angle}deg) translateZ(${radius}px)`;
 
@@ -261,13 +241,9 @@
         `;
 
         card.addEventListener('click', () => {
-            if (dragDistance < 15 && Math.abs(velocity) < 0.5) {
-                try {
-                    window.location.href = story.url;
-                } catch (err) {
-                    console.error("Navigation failed", err);
-                    window.location.assign(story.url);
-                }
+            // Only navigate if it wasn't a significant drag action
+            if (dragDistance < 10 && Math.abs(velocity) < 0.5) {
+                window.location.href = story.url;
             }
         });
 
@@ -275,20 +251,17 @@
     });
 
     function updateCarousel() {
-        carousel.style.transform = `rotateY(${rotationY}deg)`;
-
+        // Friction / Deceleration
         if (!isDragging) {
-<<<<<<< HEAD
-            velocity *= 0.95; // Friction
-=======
-            velocity *= 0.95;
->>>>>>> 8b366acd8c1b8a3c99ae17eec201135175058d57
+            velocity *= 0.96;
             rotationY += velocity;
         }
 
+        carousel.style.transform = `rotateY(${rotationY}deg)`;
         requestAnimationFrame(updateCarousel);
     }
 
+    // Input Logic
     function handleStart(x) {
         isDragging = true;
         startX = x;
@@ -299,7 +272,7 @@
         if (!isDragging) return;
         const deltaX = currentX - startX;
         dragDistance += Math.abs(deltaX);
-        velocity = deltaX * 0.12;
+        velocity = deltaX * 0.15;
         rotationY += velocity;
         startX = currentX;
     }
@@ -308,31 +281,25 @@
         isDragging = false;
     }
 
-<<<<<<< HEAD
-    // Input Events
-=======
->>>>>>> 8b366acd8c1b8a3c99ae17eec201135175058d57
+    // Desktop Events
     window.addEventListener('mousedown', (e) => handleStart(e.clientX));
     window.addEventListener('mousemove', (e) => handleMove(e.clientX));
     window.addEventListener('mouseup', handleEnd);
 
+    // Touch Events
     window.addEventListener('touchstart', (e) => handleStart(e.touches[0].clientX), {passive: true});
     window.addEventListener('touchmove', (e) => handleMove(e.touches[0].clientX), {passive: true});
     window.addEventListener('touchend', handleEnd);
 
+    // Scroll Wheel
     window.addEventListener('wheel', (e) => {
-        velocity += e.deltaY * -0.008;
+        velocity += e.deltaY * -0.01;
     }, {passive: true});
 
-<<<<<<< HEAD
-    // Start Loop
+    // Run Loop
     updateCarousel();
 
-    // Ambient background
-=======
-    updateCarousel();
-
->>>>>>> 8b366acd8c1b8a3c99ae17eec201135175058d57
+    // Ambient background animation
     const canvas = document.getElementById('ambient-canvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
@@ -340,12 +307,12 @@
     function initParticles() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        particles = Array.from({ length: 60 }, () => ({
+        particles = Array.from({ length: 80 }, () => ({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            size: Math.random() * 1.2,
-            speed: Math.random() * 0.3 + 0.1,
-            opacity: Math.random() * 0.5 + 0.1
+            size: Math.random() * 1.5,
+            speed: Math.random() * 0.4 + 0.1,
+            opacity: Math.random() * 0.4 + 0.1
         }));
     }
 
