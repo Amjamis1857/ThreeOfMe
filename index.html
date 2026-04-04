@@ -113,13 +113,12 @@
             opacity: 0.3;
         }
 
-        /* Description Styling */
         .desc-section {
             margin-top: 1.5rem;
             padding-top: 1.5rem;
             border-top: 1px solid rgba(255,255,255,0.05);
         }
-        
+
         .desc-label {
             font-size: 0.65rem;
             font-weight: 800;
@@ -157,12 +156,12 @@
                 <h1 class="hero-title text-7xl md:text-9xl font-bold mb-8 animate__animated animate__fadeInUp">
                     THREE OF ME.
                 </h1>
-                
+
                 <div class="max-w-4xl mx-auto space-y-10 animate__animated animate__fadeInUp animate__delay-1s">
                     <p class="text-xl md:text-2xl font-light opacity-90 leading-relaxed text-white">
                         A comedy psychological horror book series about one person and the three versions of himself being dragged into self-made nightmare worlds that mirror his inner rot.
                     </p>
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4">
                         <div class="p-6 rounded-2xl border border-white/10 bg-white/5 transition-all hover:bg-white/10">
                             <h3 class="font-bold text-white text-xl mb-3 uppercase tracking-tighter">Amjamis</h3>
@@ -179,102 +178,27 @@
                     </div>
                 </div>
 
-                <div class="mt-16 animate__animated animate__fadeInUp animate__delay-2s">
-                   <!-- Begin Reading Button -->
-<a href="ThreeOfMe.html" id="begin-reading"
-   class="glow-button inline-block bg-white text-black px-12 py-5 rounded-full font-bold uppercase tracking-widest text-sm">
-    Begin Reading.
-</a>
+                <div class="mt-16 flex flex-col items-center gap-4 animate__animated animate__fadeInUp animate__delay-2s">
+                    <!-- Begin Reading Button -->
+                    <a href="ThreeOfMe.html" class="nav-link glow-button inline-block bg-white text-black px-12 py-5 rounded-full font-bold uppercase tracking-widest text-sm w-64 text-center">
+                        Begin Reading.
+                    </a>
 
-<!-- Background Audio -->
-<audio id="wind-audio" src="wind.mp3" loop></audio>
-<audio id="music-audio" src="music.mp3" loop></audio>
+                    <!-- Extras Button -->
+                    <a href="Extras.html" class="nav-link glow-button inline-block bg-white/5 border border-white/20 text-white px-12 py-4 rounded-full font-bold uppercase tracking-widest text-xs w-64 text-center backdrop-blur-sm hover:bg-white/10">
+                        Extras
+                    </a>
+                </div>
+            </div>
 
-<script>
-    const windAudio = document.getElementById('wind-audio');
-    const musicAudio = document.getElementById('music-audio');
-    const button = document.getElementById('begin-reading');
-
-    windAudio.volume = 0.3;
-    musicAudio.volume = 0.5;
-
-    // Attempt autoplay on load, scroll, or click
-    function tryPlayAudio() {
-        windAudio.play().catch(() => {});
-        musicAudio.play().catch(() => {});
-    }
-
-    window.addEventListener('load', tryPlayAudio);
-    window.addEventListener('click', tryPlayAudio);
-    window.addEventListener('scroll', tryPlayAudio);
-
-    // Fade out function
-    function fadeOutAudio(audio, duration = 1000) {
-        const stepTime = 50;
-        const steps = duration / stepTime;
-        const volStep = audio.volume / steps;
-
-        const fadeInterval = setInterval(() => {
-            if (audio.volume - volStep > 0) {
-                audio.volume -= volStep;
-            } else {
-                audio.volume = 0;
-                audio.pause();
-                clearInterval(fadeInterval);
-            }
-        }, stepTime);
-    }
-
-    // On button click: fade audios then navigate
-    button.addEventListener('click', (e) => {
-        e.preventDefault(); // prevent immediate navigation
-
-        fadeOutAudio(windAudio, 1500);  // fade out over 1.5s
-        fadeOutAudio(musicAudio, 1500);
-
-        setTimeout(() => {
-            window.location.href = button.href; // go to page after fade
-        }, 1500);
-    });
-</script>
-
-            
             <a href="https://bsky.app/profile/amjamis.bsky.social"
-   target="_blank"
-   rel="noopener noreferrer"
-   class="fixed top-6 right-6 z-50 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest
-          border border-white/20 text-white bg-white/5 backdrop-blur-md
-          hover:bg-white hover:text-black transition-all duration-300 glow-button">
-    Bluesky
-</a>
-
-<!-- Background Audio -->
-<audio id="wind-audio" src="wind.mp3" loop></audio>
-<audio id="music-audio" src="music.mp3" loop></audio>
-
-<script>
-    const windAudio = document.getElementById('wind-audio');
-    const musicAudio = document.getElementById('music-audio');
-
-    // Set initial volumes
-    windAudio.volume = 0.3;
-    musicAudio.volume = 0.5;
-
-    function tryPlayAudio() {
-        if (windAudio.paused) windAudio.play().catch(() => {});
-        if (musicAudio.paused) musicAudio.play().catch(() => {});
-    }
-
-    // Attempt autoplay on load
-    window.addEventListener('load', tryPlayAudio);
-
-    // Fallbacks: click or scroll
-    window.addEventListener('click', tryPlayAudio);
-    window.addEventListener('scroll', tryPlayAudio);
-</script>
-
-
-            
+                target="_blank"
+                rel="noopener noreferrer"
+                class="fixed top-6 right-6 z-50 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest
+                    border border-white/20 text-white bg-white/5 backdrop-blur-md
+                    hover:bg-white hover:text-black transition-all duration-300 glow-button">
+                Bluesky
+            </a>
         </section>
 
         <!-- The Trio Section -->
@@ -292,12 +216,12 @@
                             <img src="Amjamis.png" alt="Amjamis" class="character-img" onerror="this.src='https://via.placeholder.com/384x640/111/333?text=Amjamis'">
                         </div>
                         <h3 class="text-4xl font-bold mb-6 tracking-tighter group-hover:text-white transition-colors">Amjamis</h3>
-                        
+
                         <div class="desc-section">
                             <span class="desc-label">Physicality</span>
                             <p class="desc-text">Amjamis Jane Miller, or as MYS lovingly calls him, 'Mr. Corpse' is the weary, cynical core of the fractured self. Physically, he’s described as a slim, pale Indian man with dark hair, sharp features, and a perpetual limp. He almost always wears old brown boots, blue jeans, black shirt, with a gray overcoat. practical clothes that make him look like he’s perpetually ready to disappear into a crowd.</p>
                         </div>
-                        
+
                         <div class="desc-section mt-auto">
                             <span class="desc-label">Personality</span>
                             <p class="desc-text">Personality-wise, he’s exhausted, sarcastic, brutally honest, quick with dark humor, but underneath it all there’s a stubborn, reluctant sense of decency. He’s the one who keeps going back into nightmare worlds not because he believes in saving them, but because Arial believes in him. He’s deeply traumatized, haunted by past violence, loss, and his own capacity for cruelty, yet he’s the only one of the three who has actually changed, even if that change is mostly just growing more tired of himself. He’s the reluctant adult in the room, the one who wants it all to end but keeps choosing to stay for the people (and the pieces of himself) he still cares about.</p>
@@ -310,7 +234,7 @@
                             <img src="Arial.png" alt="Arial" class="character-img" onerror="this.src='https://via.placeholder.com/384x640/111/333?text=Arial'">
                         </div>
                         <h3 class="text-4xl font-bold mb-6 tracking-tighter group-hover:text-white transition-colors">Arial</h3>
-                        
+
                         <div class="desc-section">
                             <span class="desc-label">Physicality</span>
                             <p class="desc-text">Arial Miller is the emotional anchor and moral center of the fractured trio. Physically, she’s described as a slim, pale woman with long dark hair, soft features, and an almost ethereal presence that makes her stand out. Always. She almost always wears brown high-heel boots, blue jeans, black tanktop, gray overcoat, but her signature scarf is the most defining part of her appearance, an extension of herself that moves with intention, protects, heals, and fights when needed.</p>
@@ -328,7 +252,7 @@
                             <img src="MYS.png" alt="MYS" class="character-img" onerror="this.src='https://via.placeholder.com/384x640/111/333?text=MYS'">
                         </div>
                         <h3 class="text-4xl font-bold mb-6 tracking-tighter group-hover:text-white transition-colors">MYS</h3>
-                        
+
                         <div class="desc-section">
                             <span class="desc-label">Physicality</span>
                             <p class="desc-text">MYS "James" Miller is the original. Physically, he appears as a small, wiry boy of about 10–12 years old, with messy dark hair, pale skin, and oversized black eyes that can stretch into empty voids when he’s excited or angry. He’s almost always grinning with sharp, too-wide teeth, black agony pouring out of his mouth. His movements are unnaturally fluid, skipping, crawling, slithering, like gravity is just a suggestion he ignores for fun. Black strings constantly twitch from his back or fingers, sometimes dripping liquid agony, and when he’s truly unhinged, his body warps, he exceeds a physical form, the only reason you can see him is because he'll manifest into the one thing that truly scares you.</p>
@@ -343,21 +267,77 @@
             </div>
         </section>
 
-<footer class="py-20 px-8 text-center border-t border-white/5">
-    <div class="mb-4 text-2xl font-bold tracking-[.3em] uppercase opacity-80">
-        Made by Amjamis Jane Miller.
+        <footer class="py-20 px-8 text-center border-t border-white/5">
+            <div class="mb-4 text-2xl font-bold tracking-[.3em] uppercase opacity-80">
+                Made by Amjamis Jane Miller.
+            </div>
+
+            <div class="text-[0.65rem] tracking-widest opacity-30 mt-2">
+                Thank you to my friend Matilda for writing the character and series descriptions.
+            </div>
+        </footer>
     </div>
 
-    <div class="text-[0.65rem] tracking-widest opacity-30 mt-2">
-        Thank you to my friend Matilda for writing the character and series descriptions.
-    </div>
-</footer>
-
-    </div>
+    <!-- Background Audio -->
+    <audio id="wind-audio" src="wind.mp3" loop></audio>
+    <audio id="music-audio" src="music.mp3" loop></audio>
 
     <script>
         const canvas = document.getElementById('dust-canvas');
         const ctx = canvas.getContext('2d');
+        const windAudio = document.getElementById('wind-audio');
+        const musicAudio = document.getElementById('music-audio');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        // Audio Setup
+        windAudio.volume = 0.3;
+        musicAudio.volume = 0.5;
+
+        function tryPlayAudio() {
+            windAudio.play().catch(() => {});
+            musicAudio.play().catch(() => {});
+        }
+
+        window.addEventListener('load', () => {
+            initParticles();
+            animateDust();
+            reveal();
+            tryPlayAudio();
+        });
+        window.addEventListener('click', tryPlayAudio);
+        window.addEventListener('scroll', () => {
+            tryPlayAudio();
+            reveal();
+        });
+
+        function fadeOutAudio(audio, duration = 1500) {
+            const stepTime = 50;
+            const steps = duration / stepTime;
+            const volStep = audio.volume / steps;
+
+            const fadeInterval = setInterval(() => {
+                if (audio.volume - volStep > 0) {
+                    audio.volume -= volStep;
+                } else {
+                    audio.volume = 0;
+                    audio.pause();
+                    clearInterval(fadeInterval);
+                }
+            }, stepTime);
+        }
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                fadeOutAudio(windAudio, 1500);
+                fadeOutAudio(musicAudio, 1500);
+                setTimeout(() => {
+                    window.location.href = link.getAttribute('href');
+                }, 1500);
+            });
+        });
+
+        // Dust Particles Logic
         let particles = [];
         let mouse = { x: null, y: null };
 
@@ -375,10 +355,7 @@
         });
 
         class Particle {
-            constructor() {
-                this.init();
-            }
-
+            constructor() { this.init(); }
             init() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
@@ -390,18 +367,15 @@
                 this.speedY = (Math.random() - 0.5) * 0.5;
                 this.opacity = Math.random() * 0.5 + 0.2;
             }
-
             draw() {
                 ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
             }
-
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
-
                 if (this.x > canvas.width) this.x = 0;
                 if (this.x < 0) this.x = canvas.width;
                 if (this.y > canvas.height) this.y = 0;
@@ -411,14 +385,11 @@
                     let dx = mouse.x - this.x;
                     let dy = mouse.y - this.y;
                     let distance = Math.sqrt(dx * dx + dy * dy);
-                    let forceDirectionX = dx / distance;
-                    let forceDirectionY = dy / distance;
                     let maxDistance = 150;
-                    let force = (maxDistance - distance) / maxDistance;
-                    
                     if (distance < maxDistance) {
-                        this.x -= forceDirectionX * force * 5;
-                        this.y -= forceDirectionY * force * 5;
+                        let force = (maxDistance - distance) / maxDistance;
+                        this.x -= (dx / distance) * force * 5;
+                        this.y -= (dy / distance) * force * 5;
                     }
                 }
             }
@@ -427,9 +398,7 @@
         function initParticles() {
             particles = [];
             const count = (canvas.width * canvas.height) / 1000;
-            for (let i = 0; i < count; i++) {
-                particles.push(new Particle());
-            }
+            for (let i = 0; i < count; i++) { particles.push(new Particle()); }
         }
 
         function animateDust() {
@@ -441,45 +410,16 @@
             requestAnimationFrame(animateDust);
         }
 
-        window.onload = () => {
-            initParticles();
-            animateDust();
-            reveal();
-        }
-
         function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 100;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
+            const reveals = document.querySelectorAll(".reveal");
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    el.classList.add("active");
                 }
-            }
+            });
         }
-
-        window.addEventListener("scroll", reveal);
     </script>
-    
-    <script>
-const wobbleElements = document.querySelectorAll(".wobble-on-scroll");
-
-window.addEventListener("scroll", () => {
-    const scrollY = window.scrollY;
-
-    wobbleElements.forEach((el, i) => {
-        const intensity = 2; // px — keep this LOW
-        const speed = 0.002 + i * 0.0003;
-
-        const x = Math.sin(scrollY * speed) * intensity;
-        const y = Math.cos(scrollY * speed * 1.3) * intensity;
-        const r = Math.sin(scrollY * speed) * 0.3;
-
-        el.style.transform = `translate(${x}px, ${y}px) rotate(${r}deg)`;
-    });
-});
-</script>
-
 </body>
 </html>
