@@ -202,7 +202,6 @@
 
 <div class="scene">
     <div class="carousel" id="carousel">
-        <!-- Cards injected by JS -->
     </div>
 </div>
 
@@ -215,18 +214,18 @@
         { title: "Times Ending.", tag: "Story I — Setup", url: "TimesEnding.html" },
         { title: "Upbringing.", tag: "Story II — Religion", url: "Upbringing.html" },
         { title: "Frozen.", tag: "Story III — Abandonment", url: "Frozen.html" },
-        { title: "Normalcy.", tag: "Story IV — Return", url: "Normalcy.html" }
+        { title: "Normalcy.", tag: "Story IV — Return", url: "Normalcy.html" },
+        { title: "Agony.", tag: "Story V — Loss", url: "Agony.html" }
     ];
 
     const carousel = document.getElementById('carousel');
-    const radius = 420; // Radius of the 3D circle
+    const radius = 450;
     let rotationY = 0;
     let isDragging = false;
     let startX = 0;
     let velocity = 0;
     let dragDistance = 0;
 
-    // Create and position cards in 3D space
     stories.forEach((story, i) => {
         const card = document.createElement('div');
         card.className = 'story-card';
@@ -241,9 +240,8 @@
         `;
 
         card.addEventListener('click', () => {
-            // Only navigate if it wasn't a significant drag action
             if (dragDistance < 10 && Math.abs(velocity) < 0.5) {
-                window.location.href = story.url;
+                console.log(`Navigating to: ${story.url}`);
             }
         });
 
@@ -251,7 +249,6 @@
     });
 
     function updateCarousel() {
-        // Friction / Deceleration
         if (!isDragging) {
             velocity *= 0.96;
             rotationY += velocity;
@@ -261,7 +258,6 @@
         requestAnimationFrame(updateCarousel);
     }
 
-    // Input Logic
     function handleStart(x) {
         isDragging = true;
         startX = x;
@@ -281,25 +277,20 @@
         isDragging = false;
     }
 
-    // Desktop Events
     window.addEventListener('mousedown', (e) => handleStart(e.clientX));
     window.addEventListener('mousemove', (e) => handleMove(e.clientX));
     window.addEventListener('mouseup', handleEnd);
 
-    // Touch Events
     window.addEventListener('touchstart', (e) => handleStart(e.touches[0].clientX), {passive: true});
     window.addEventListener('touchmove', (e) => handleMove(e.touches[0].clientX), {passive: true});
     window.addEventListener('touchend', handleEnd);
 
-    // Scroll Wheel
     window.addEventListener('wheel', (e) => {
         velocity += e.deltaY * -0.01;
     }, {passive: true});
 
-    // Run Loop
     updateCarousel();
 
-    // Ambient background animation
     const canvas = document.getElementById('ambient-canvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
