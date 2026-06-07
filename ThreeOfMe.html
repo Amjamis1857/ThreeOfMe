@@ -282,7 +282,11 @@
     window.addEventListener('touchstart', (e) => handleStart(e.touches[0].clientX), {passive: true});
     window.addEventListener('touchmove', (e) => handleMove(e.touches[0].clientX), {passive: true});
     window.addEventListener('touchend', handleEnd);
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 4cec939b4444c7bb07beff536cb4eb51aa38989c
     window.addEventListener('wheel', (e) => {
         velocity += e.deltaY * -0.01;
     }, {passive: true});
