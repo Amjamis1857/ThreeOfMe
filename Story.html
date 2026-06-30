@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>STORYNAME | Three of Me</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --accent: #ffffff;
+            --color-text: #ffffff;
+            --color-muted: rgba(255, 255, 255, 0.4);
+            --font-serif: 'Lora', Georgia, serif;
+            --font-display: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--accent);
+            font-family: var(--font-serif);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            position: relative;
+            margin: 0;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .content-layer {
+            position: relative;
+            z-index: 10;
+        }
+
+        .novel-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1.5rem;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .story-text p {
+            font-size: var(--text-size, 1.2rem);
+            line-height: 1.95;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 300;
+            opacity: 0;
+            transform: translateY(12px);
+            animation: textReveal 1.2s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+        }
+
+        @keyframes textReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-fade-out {
+            animation: pageLeave 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        .page-fade-in {
+            animation: pageEnter 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        @keyframes pageLeave {
+            from { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); }
+            to { opacity: 0; transform: scale(0.99) translateY(-10px); filter: blur(4px); }
+        }
+
+        @keyframes pageEnter {
+            from { opacity: 0; transform: scale(1.01) translateY(10px); filter: blur(4px); }
+            to { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); }
+        }
+
+        .glow-button {
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 rgba(255,255,255,0);
+        }
+
+        .glow-button:hover {
+            box-shadow: 0 0 20px rgba(255,255,255,0.4);
+            transform: translateY(-2px);
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+    </style>
+</head>
+<body class="selection:bg-white/20 selection:text-white">
+
+    <canvas id="particleCanvas"></canvas>
+
+    <div id="audioGate" class="fixed inset-0 bg-[#0a0a0a] flex flex-col items-center justify-center z-50 transition-all duration-1000 p-6 text-center">
+        <div class="w-16 mb-8 relative opacity-60 animate-pulse" style="animation-duration: 4s;">
+            <svg viewBox="0 0 24 24" class="w-full h-full text-white/60 fill-current">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.53c-.26-.81-1-1.4-1.9-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+            </svg>
+        </div>
+
+        <!-- ENTRANCE TITLE (EDITABLE) -->
+        <h1 id="gateTitle" class="text-2xl font-serif text-white mb-2 tracking-[0.25em] uppercase" style="font-family: var(--font-display);">STORY TITLE</h1>
+        <p id="gateSubtitle" class="text-xs font-sans tracking-[0.15em] text-white/40 uppercase mb-8">AN AUDIO-INTEGRATED READING EXPERIENCE</p>
+
+        <button id="beginBtn" class="glow-button px-12 py-3.5 border border-white/20 text-white bg-white/5 backdrop-blur-sm font-sans tracking-[0.2em] text-xs rounded-full hover:bg-white hover:text-black transition-all duration-300 uppercase">
+            BEGIN READING
+        </button>
+    </div>
+
+    <audio id="bgMusic" loop></audio>
+    <audio id="pageTurn" src="pageturn.mp3"></audio>
+
+    <div class="content-layer flex flex-col flex-grow">
+    <header class="w-full max-w-4xl mx-auto px-6 pt-6 pb-2 z-10 flex justify-between items-center text-xs font-sans tracking-wider uppercase text-white/40">
+        <div class="flex items-center gap-6">
+            <!-- EDIT THIS: Brand Name / Header Title -->
+            <span class="font-semibold text-white/70 tracking-[0.2em]">STORY TITLE</span>
+            <!-- Dynamically calculated tracking information (do not hardcode) -->
+            <div id="progressTracker" class="hidden sm:inline-block border-l border-white/10 pl-6">Chapter 1</div>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2 border-l border-white/10 pl-4">
+                <button id="fontDecrease" class="p-1 hover:text-white transition-colors" title="Decrease Font Size">A-</button>
+                <button id="fontIncrease" class="p-1 hover:text-white transition-colors" title="Increase Font Size">A+</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center p-4 md:p-8 z-10">
+        <div class="w-full max-w-3xl relative">
+
+            <div class="w-full bg-white/5 h-1 rounded-full mb-8 overflow-hidden relative border border-white/10">
+                <div id="progressBar" class="h-full bg-white/40 w-0 transition-all duration-500"></div>
+            </div>
+
+            <div id="novelCard" class="novel-card p-6 md:p-12 transition-all duration-300">
+                <div id="storyContent" class="page-fade-in">
+
+                    <div id="sectionContainer">
+
+                        <!-- ========================================== -->
+                        <!-- CHAPTER 1: Edit, duplicate or delete these -->
+                        <!-- ========================================== -->
+                        <!-- Use "data-music" to point to your custom audio track URL or local file path -->
+                        <div class="section-content block" data-music="audio/track1.mp3">
+                            <!-- EDIT THIS: Chapter Number / Sub-header -->
+                            <h2 class="text-xs font-sans uppercase tracking-[0.25em] text-white/40 mb-8 font-semibold">Page &bull; 1</h2>
+
+                        <!-- CHAPTER 1 -->
+                            <div class="story-text">
+                                <p>Test.</p>
+                            </div>
+                        </div>
+
+                        <!-- CHAPTER 2 -->
+                        <div class="section-content hidden" data-music="audio/track2.mp3">
+                            <h2 class="text-xs font-sans uppercase tracking-[0.25em] text-white/40 mb-8 font-semibold">Page &bull; 2</h2>
+                            <div class="story-text">
+                                <p>Test.</p>
+                            </div>
+                        </div>
+
+                        <!-- CHAPTER 3 -->
+                        <div class="section-content hidden" data-music="audio/track3.mp3">
+                            <h2 class="text-xs font-sans uppercase tracking-[0.25em] text-white/40 mb-8 font-semibold">Page &bull; 3</h2>
+                            <div class="story-text">
+                                <p>Test.</p>
+                            </div>
+                        </div>
+
+                        <!-- ========================================================= -->
+                        <!-- ENDPAGE SCREEN: Keep this as the final block of the book  -->
+                        <!-- ========================================================= -->
+                        <div id="endPage" class="section-content hidden text-center">
+                            <div class="flex flex-col items-center justify-center py-6">
+                                <div class="w-16 h-16 mb-6 relative opacity-60">
+                                    <svg viewBox="0 0 24 24" class="w-full h-full text-white/50 fill-current animate-pulse" xmlns="http://www.w3.org/2000/svg" style="animation-duration: 4s;">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                                    </svg>
+                                </div>
+                                <h2 class="text-4xl font-serif text-white mb-2 tracking-widest font-normal uppercase" style="font-family: var(--font-display);">The End.</h2>
+
+                                <p class="text-xs font-sans tracking-widest text-white/40 uppercase mb-8">Press the button below to go back home.</p>
+
+                                <button id="restartBtn" class="px-6 py-2 border border-white/20 hover:border-white/40 text-white/50 hover:text-white hover:bg-white/5 rounded-full text-xs tracking-widest font-sans transition-all duration-300 uppercase">
+                                    GO HOME
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="navControls" class="mt-12 flex justify-between items-center border-t border-white/10 pt-6">
+                        <button id="prevBtn" class="px-4 py-2 rounded-lg border border-white/20 text-white/50 hover:text-white hover:bg-white/5 transition-all font-sans text-xs uppercase tracking-widest flex items-center gap-1 cursor-pointer disabled:opacity-0 disabled:pointer-events-none" disabled>
+                            ← Back
+                        </button>
+                        <button id="nextBtn" class="px-5 py-2.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/80 hover:text-white border border-white/10 transition-all font-sans text-xs uppercase tracking-widest flex items-center gap-1 cursor-pointer">
+                            Turn the page →
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+    </div>
+
+    <script>
+        const sections = document.querySelectorAll(".section-content");
+        let currentSectionIndex = 0;
+        let currentFontSize = 1.2;
+
+        const audioGate = document.getElementById("audioGate");
+        const beginBtn = document.getElementById("beginBtn");
+        const storyContent = document.getElementById("storyContent");
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        const restartBtn = document.getElementById("restartBtn");
+        const navControls = document.getElementById("navControls");
+        const progressBar = document.getElementById("progressBar");
+        const progressTracker = document.getElementById("progressTracker");
+
+        const fontDecrease = document.getElementById("fontDecrease");
+        const fontIncrease = document.getElementById("fontIncrease");
+
+        const music = document.getElementById("bgMusic");
+        const pageTurn = document.getElementById("pageTurn");
+        music.volume = 0;
+
+        function playMusic(src) {
+            if (!src) return;
+            if (music.src && music.src.includes(src)) return;
+
+            let fadeOut = setInterval(() => {
+                if (music.volume > 0.05) {
+                    music.volume -= 0.05;
+                } else {
+                    clearInterval(fadeOut);
+                    try {
+                        music.src = src;
+                        music.play().catch(e => console.warn("Audio deferred waiting for input or missing file:", e));
+                        fadeInMusic();
+                    } catch (err) {
+                        console.error("Failed to load music track:", src, err);
+                    }
+                }
+            }, 60);
+        }
+
+        function fadeInMusic() {
+            music.volume = 0;
+            let fadeIn = setInterval(() => {
+                if (music.volume < 0.6) {
+                    music.volume += 0.03;
+                } else {
+                    clearInterval(fadeIn);
+                }
+            }, 80);
+        }
+
+        const canvas = document.getElementById("particleCanvas");
+        const ctx = canvas.getContext("2d");
+        let particles = [];
+        let mouse = { x: null, y: null };
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+
+        class DustParticle {
+            constructor() { this.init(); }
+
+            init() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+
+                if (mouse.x != null) {
+                    const dx = mouse.x - this.x;
+                    const dy = mouse.y - this.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    const maxDistance = 150;
+                    if (distance < maxDistance) {
+                        const force = (maxDistance - distance) / maxDistance;
+                        this.x -= (dx / distance) * force * 5;
+                        this.y -= (dy / distance) * force * 5;
+                    }
+                }
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.min(120, Math.floor((canvas.width * canvas.height) / 1000));
+            for (let i = 0; i < count; i++) {
+                particles.push(new DustParticle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initParticles();
+        });
+
+        function updatePage() {
+            pageTurn.play().catch(e => console.warn("Sound asset deferred or missing:", e));
+
+            storyContent.classList.remove("page-fade-in");
+            storyContent.classList.add("page-fade-out");
+
+            setTimeout(() => {
+                sections.forEach((sect, idx) => {
+                    if (idx === currentSectionIndex) {
+                        sect.classList.remove("hidden");
+                        sect.classList.add("block");
+
+                        if (sect.dataset.music) {
+                            playMusic(sect.dataset.music);
+                        }
+                    } else {
+                        sect.classList.remove("block");
+                        sect.classList.add("hidden");
+                    }
+                });
+
+                prevBtn.disabled = currentSectionIndex === 0;
+
+                const totalChapters = sections.length - 1;
+                const currentProgress = (currentSectionIndex / totalChapters) * 100;
+                progressBar.style.width = `${Math.min(currentProgress, 100)}%`;
+
+                if (currentSectionIndex < totalChapters) {
+                    progressTracker.textContent = `Chapter ${currentSectionIndex + 1} of ${totalChapters}`;
+                    navControls.classList.remove("hidden");
+                } else {
+                    progressTracker.textContent = `The End`;
+                    navControls.classList.add("hidden");
+                }
+
+                window.scrollTo({ top: 0, behavior: "smooth" });
+
+                storyContent.classList.remove("page-fade-out");
+                storyContent.classList.add("page-fade-in");
+            }, 400);
+        }
+
+        fontIncrease.addEventListener("click", () => {
+            if (currentFontSize < 1.8) {
+                currentFontSize += 0.1;
+                document.documentElement.style.setProperty('--text-size', `${currentFontSize}rem`);
+            }
+        });
+
+        fontDecrease.addEventListener("click", () => {
+            if (currentFontSize > 0.9) {
+                currentFontSize -= 0.1;
+                document.documentElement.style.setProperty('--text-size', `${currentFontSize}rem`);
+            }
+        });
+
+
+        beginBtn.addEventListener("click", () => {
+            const initialTrack = sections[0].dataset.music;
+            if (initialTrack) {
+                music.src = initialTrack;
+                music.play().catch(e => console.warn("Browser deferred soundtrack playing:", e));
+                fadeInMusic();
+            }
+
+            audioGate.classList.add("opacity-0", "pointer-events-none");
+            setTimeout(() => {
+                audioGate.remove();
+            }, 1000);
+
+            resizeCanvas();
+            initParticles();
+            requestAnimationFrame(animateParticles);
+        });
+
+        nextBtn.addEventListener("click", () => {
+            if (currentSectionIndex < sections.length - 1) {
+                currentSectionIndex++;
+                updatePage();
+            }
+        });
+
+        prevBtn.addEventListener("click", () => {
+            if (currentSectionIndex > 0) {
+                currentSectionIndex--;
+                updatePage();
+            }
+        });
+
+        restartBtn.addEventListener("click", () => {
+            window.location.href = "index.html";
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (document.getElementById("audioGate")) return;
+            if (e.key === "ArrowRight") {
+                if (currentSectionIndex < sections.length - 1) {
+                    currentSectionIndex++;
+                    updatePage();
+                }
+            } else if (e.key === "ArrowLeft") {
+                if (currentSectionIndex > 0) {
+                    currentSectionIndex--;
+                    updatePage();
+                }
+            }
+        });
+
+        const totalChapters = sections.length - 1;
+        progressTracker.textContent = `Chapter 1 of ${totalChapters}`;
+    </script>
+</body>
+</html>

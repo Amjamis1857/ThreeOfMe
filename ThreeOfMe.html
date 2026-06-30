@@ -6,12 +6,13 @@
     <title>STORY | Three of Me</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --bg-color: #050505;
+            --bg-color: #0a0a0a;
             --accent-color: #ffffff;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --card-border: rgba(255, 255, 255, 0.1);
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --card-border: rgba(255, 255, 255, 0.05);
         }
 
         body {
@@ -28,14 +29,14 @@
             perspective: 2000px;
         }
 
-        #ambient-canvas {
+        #dust-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            opacity: 0.4;
+            z-index: 1;
+            pointer-events: none;
         }
 
         .header {
@@ -70,6 +71,8 @@
             align-items: center;
             justify-content: center;
             transform-style: preserve-3d;
+            position: relative;
+            z-index: 10;
         }
 
         .carousel {
@@ -93,7 +96,7 @@
             top: 0;
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(12px);
             border-radius: 12px;
             display: flex;
             flex-direction: column;
@@ -113,13 +116,13 @@
             left: 14px;
             width: 1px;
             height: 100%;
-            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.15), transparent);
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.1), transparent);
         }
 
         .story-card:hover {
-            border-color: rgba(255,255,255,0.4);
-            background-color: rgba(255,255,255,0.07);
-            box-shadow: 0 0 50px rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.3);
+            background-color: rgba(255,255,255,0.05);
+            box-shadow: 0 0 50px rgba(255,255,255,0.08);
         }
 
         .story-card h2 {
@@ -173,6 +176,7 @@
             gap: 0.5rem;
             align-items: center;
             pointer-events: none;
+            z-index: 10;
         }
 
         .hint {
@@ -187,11 +191,40 @@
             0%, 100% { opacity: 0.3; }
             50% { opacity: 0.7; }
         }
+
+        .home-link {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            z-index: 50;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+        }
+
+        .home-link:hover {
+            background: #fff;
+            color: #000;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
 
-<canvas id="ambient-canvas"></canvas>
+<canvas id="dust-canvas"></canvas>
+
+<a href="index.html" class="home-link">← Back to Home</a>
 
 <div class="header">
     <h1>Three of Me</h1>
@@ -199,8 +232,7 @@
 </div>
 
 <div class="scene">
-    <div class="carousel" id="carousel">
-    </div>
+    <div class="carousel" id="carousel"></div>
 </div>
 
 <div class="controls">
@@ -209,10 +241,10 @@
 
 <script>
     const stories = [
-        { title: "Times Ending.", tag: "Story I — Setup", url: "TimesEnding.html" },
-        { title: "Upbringing.", tag: "Story II — Religion", url: "Upbringing.html" },
-        { title: "Frozen.", tag: "Story III — Abandonment", url: "Frozen.html" },
-        { title: "Normalcy.", tag: "Story IV — Return", url: "Normalcy.html" },
+        { title: "Times Ending.", tag: "Story I - Setup", url: "TimesEnding.html" },
+        { title: "Upbringing.", tag: "Story II - Religion", url: "Upbringing.html" },
+        { title: "Frozen.", tag: "Story III - Abandonment", url: "Frozen.html" },
+        { title: "Normalcy.", tag: "Story IV - Return", url: "Normalcy.html" },
         { title: "Agony.", tag: "Story V - Loss", url: "Agony.html" }
     ];
 
@@ -282,49 +314,94 @@
     window.addEventListener('touchstart', (e) => handleStart(e.touches[0].clientX), {passive: true});
     window.addEventListener('touchmove', (e) => handleMove(e.touches[0].clientX), {passive: true});
     window.addEventListener('touchend', handleEnd);
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> 4cec939b4444c7bb07beff536cb4eb51aa38989c
     window.addEventListener('wheel', (e) => {
         velocity += e.deltaY * -0.01;
     }, {passive: true});
 
     updateCarousel();
 
-    const canvas = document.getElementById('ambient-canvas');
+    const canvas = document.getElementById('dust-canvas');
     const ctx = canvas.getContext('2d');
     let particles = [];
+    let mouse = { x: null, y: null };
 
-    function initParticles() {
+    function resize() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        particles = Array.from({ length: 80 }, () => ({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            size: Math.random() * 1.5,
-            speed: Math.random() * 0.4 + 0.1,
-            opacity: Math.random() * 0.4 + 0.1
-        }));
     }
 
-    function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => {
-            p.y -= p.speed;
-            if (p.y < 0) p.y = canvas.height;
-            ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+    window.addEventListener('resize', () => {
+        resize();
+        initParticles();
+    });
+    resize();
+
+    window.addEventListener('mousemove', (e) => {
+        mouse.x = e.x;
+        mouse.y = e.y;
+    });
+
+    class Particle {
+        constructor() { this.init(); }
+        init() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 1.5 + 0.5;
+            this.baseX = this.x;
+            this.baseY = this.y;
+            this.density = (Math.random() * 30) + 1;
+            this.speedX = (Math.random() - 0.5) * 0.5;
+            this.speedY = (Math.random() - 0.5) * 0.5;
+            this.opacity = Math.random() * 0.5 + 0.2;
+        }
+        draw() {
+            ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
             ctx.beginPath();
-            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
             ctx.fill();
-        });
-        requestAnimationFrame(animateParticles);
+        }
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            if (this.x > canvas.width) this.x = 0;
+            if (this.x < 0) this.x = canvas.width;
+            if (this.y > canvas.height) this.y = 0;
+            if (this.y < 0) this.y = canvas.height;
+
+            if (mouse.x != null) {
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                let maxDistance = 0;
+                if (distance < maxDistance) {
+                    let force = (maxDistance - distance) / maxDistance;
+                    this.x -= (dx / distance) * force * 5;
+                    this.y -= (dy / distance) * force * 5;
+                }
+            }
+        }
     }
 
-    window.addEventListener('resize', initParticles);
-    initParticles();
-    animateParticles();
+    function initParticles() {
+        particles = [];
+        const count = (canvas.width * canvas.height) / 1000;
+        for (let i = 0; i < count; i++) { particles.push(new Particle()); }
+    }
+
+    function animateDust() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < particles.length; i++) {
+            particles[i].update();
+            particles[i].draw();
+        }
+        requestAnimationFrame(animateDust);
+    }
+
+    window.onload = function() {
+        initParticles();
+        animateDust();
+    }
 </script>
 
 </body>

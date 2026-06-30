@@ -149,8 +149,16 @@
 
     <canvas id="dust-canvas"></canvas>
 
+        <div class="content-wrapper">
+        <div class="w-full bg-white/5 border-b border-white/10 py-4 px-6 text-center relative z-50">
+            <div class="max-w-4xl mx-auto flex items-center justify-center gap-3 text-sm text-white/80">
+                <p class="font-light tracking-wide text-xs md:text-sm leading-relaxed">
+                    <strong class="font-bold text-white">Notice!</strong> Book 1 will be rewritten in the near future due to it's age, and somewhat poor quality compared to the other books. When reading Book 1, please remember that the 1st entry isn't the best representation of the series.
+                </p>
+            </div>
+        </div>
+
     <div class="content-wrapper">
-        <!-- Hero Section -->
         <section class="min-h-screen flex flex-col justify-center items-center px-4 py-20">
             <div class="text-center">
                 <h1 class="hero-title text-7xl md:text-9xl font-bold mb-8 animate__animated animate__fadeInUp">
@@ -179,12 +187,10 @@
                 </div>
 
                 <div class="mt-16 flex flex-col items-center gap-4 animate__animated animate__fadeInUp animate__delay-2s">
-                    <!-- Begin Reading Button -->
                     <a href="ThreeOfMe.html" class="nav-link glow-button inline-block bg-white text-black px-12 py-5 rounded-full font-bold uppercase tracking-widest text-sm w-64 text-center">
                         Begin Reading.
                     </a>
 
-                    <!-- Extras Button -->
                     <a href="Extras.html" class="nav-link glow-button inline-block bg-white/5 border border-white/20 text-white px-12 py-4 rounded-full font-bold uppercase tracking-widest text-xs w-64 text-center backdrop-blur-sm hover:bg-white/10">
                         Extras
                     </a>
@@ -194,14 +200,22 @@
             <a href="https://bsky.app/profile/amjamis.bsky.social"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="fixed top-6 right-6 z-50 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest
+                class="fixed bottom-6 right-6 z-50 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest
                     border border-white/20 text-white bg-white/5 backdrop-blur-md
                     hover:bg-white hover:text-black transition-all duration-300 glow-button">
                 Bluesky
             </a>
+
+            <a href="https://www.reddit.com/user/Amjamis1857/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="fixed bottom-6 left-6 z-50 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest
+                    border border-white/20 text-white bg-white/5 backdrop-blur-md
+                    hover:bg-white hover:text-black transition-all duration-300 glow-button">
+                Reddit
+            </a>
         </section>
 
-        <!-- The Trio Section -->
         <section class="py-32 px-8 bg-white/[0.01]">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-24 reveal">
@@ -210,7 +224,6 @@
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                    <!-- Amjamis -->
                     <div class="reveal glass p-8 rounded-3xl group flex flex-col">
                         <div class="character-img-container">
                             <img src="Amjamis.png" alt="Amjamis" class="character-img" onerror="this.src='https://via.placeholder.com/384x640/111/333?text=Amjamis'">
@@ -228,7 +241,6 @@
                         </div>
                     </div>
 
-                    <!-- Arial -->
                     <div class="reveal glass p-8 rounded-3xl group flex flex-col" style="transition-delay: 0.1s;">
                         <div class="character-img-container">
                             <img src="Arial.png" alt="Arial" class="character-img" onerror="this.src='https://via.placeholder.com/384x640/111/333?text=Arial'">
@@ -246,7 +258,6 @@
                         </div>
                     </div>
 
-                    <!-- MYS -->
                     <div class="reveal glass p-8 rounded-3xl group flex flex-col" style="transition-delay: 0.2s;">
                         <div class="character-img-container">
                             <img src="MYS.png" alt="MYS" class="character-img" onerror="this.src='https://via.placeholder.com/384x640/111/333?text=MYS'">
@@ -289,7 +300,6 @@
         const musicAudio = document.getElementById('music-audio');
         const navLinks = document.querySelectorAll('.nav-link');
 
-        // Audio Setup
         windAudio.volume = 0.3;
         musicAudio.volume = 0.5;
 
@@ -337,7 +347,6 @@
             });
         });
 
-        // Dust Particles Logic
         let particles = [];
         let mouse = { x: null, y: null };
 

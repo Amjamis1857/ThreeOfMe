@@ -5,11 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EXTRAS | Three of Me</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;700;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --accent: #ffffff;
+        }
+
         body {
-            background-color: #0d0d0d;
-            color: #e0e0e0;
+            background-color: var(--bg-dark);
+            color: var(--accent);
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             overflow: hidden;
             height: 100vh;
@@ -18,37 +24,39 @@
             position: relative;
         }
 
-        #blizzard-canvas {
+        #ambient-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0;
+            z-index: 1;
             pointer-events: none;
         }
 
+        .content-container {
+            position: relative;
+            z-index: 10;
+        }
+
         .glass-panel {
-            background: rgba(30, 30, 30, 0.6);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            z-index: 1;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .logo-text {
             font-weight: 900;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.05em;
             line-height: 0.9;
             text-transform: uppercase;
-            font-family: 'Inter', sans-serif;
         }
 
         @keyframes logoFloat {
             0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-8px) scale(1.01); }
+            50% { transform: translateY(-6px) scale(1.005); }
         }
 
         .animated-logo {
@@ -57,28 +65,29 @@
         }
 
         .sidebar-item {
-            padding: 1.25rem 1.5rem;
+            padding: 1.25rem 1.75rem;
             cursor: pointer;
-            border-left: 4px solid transparent;
-            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             color: rgba(255, 255, 255, 0.4);
         }
 
         .sidebar-item:hover {
-            color: rgba(255, 255, 255, 0.8);
-            background: rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.02);
         }
 
         .sidebar-item.active {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
             border-left-color: #fff;
             color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
         }
 
         .art-item {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
             overflow: hidden;
             position: relative;
             cursor: pointer;
@@ -86,6 +95,12 @@
             align-items: center;
             justify-content: center;
             aspect-ratio: 1 / 1;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .art-item:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
         }
 
         .art-item img {
@@ -93,38 +108,41 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            opacity: 0.9;
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+            opacity: 0.75;
+            filter: grayscale(40%) contrast(110%);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease, filter 0.5s ease;
         }
 
         .art-item:hover img {
-            transform: scale(1.04);
+            transform: scale(1.05);
             opacity: 1;
+            filter: grayscale(0%) contrast(100%);
         }
 
         @keyframes fadeOut {
             0% { opacity: 1; }
-            70% { opacity: 1; }
+            80% { opacity: 1; }
             100% { opacity: 0; visibility: hidden; }
         }
 
         .disclaimer {
-            animation: fadeOut 5s forwards;
-            background: rgba(255, 255, 255, 0.1);
+            animation: fadeOut 6s forwards;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(5px);
-            padding: 4px 12px;
-            border-radius: 20px;
+            padding: 6px 16px;
+            border-radius: 30px;
             font-size: 10px;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
             color: #ccc;
         }
 
         #lightbox {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(5, 5, 5, 0.96);
+            backdrop-filter: blur(15px);
             z-index: 100;
             display: none;
             flex-direction: column;
@@ -132,7 +150,7 @@
             justify-content: center;
             padding: 2rem;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         #lightbox.active {
@@ -142,26 +160,34 @@
 
         .lightbox-content {
             max-width: 90vw;
-            max-height: 80vh;
+            max-height: 75vh;
             object-fit: contain;
-            box-shadow: 0 0 100px rgba(0,0,0,1);
-            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            box-shadow: 0 0 120px rgba(0,0,0,1);
+            border: 1px solid rgba(255,255,255,0.08);
+            transform: scale(0.95);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #lightbox.active .lightbox-content {
+            transform: scale(1);
         }
 
         .lightbox-quote {
             margin-top: 2rem;
-            font-weight: 200;
-            letter-spacing: 0.1em;
-            color: #aaa;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.85);
             text-align: center;
-            max-width: 600px;
+            max-width: 650px;
             font-style: italic;
         }
 
-        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
         .custom-scroll::-webkit-scrollbar-track { background: transparent; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 0px; }
-        .custom-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #555; }
 
         .section-content {
             display: none;
@@ -172,13 +198,15 @@
 
         .video-container {
             width: 100%;
-            max-width: 600px;
+            max-width: 500px;
             margin: 0 auto;
             background: #000;
-            border: 2px solid #000;
-            box-shadow: 0 40px 80px rgba(0,0,0,0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 50px 100px rgba(0,0,0,0.95);
             position: relative;
             aspect-ratio: 1 / 1;
+            border-radius: 16px;
+            overflow: hidden;
             z-index: 5;
         }
 
@@ -189,28 +217,29 @@
 
         @keyframes slither {
             0%, 100% { transform: translateX(0) rotate(0deg); }
-            33% { transform: translateX(-10px) rotate(-1deg); }
-            66% { transform: translateX(10px) rotate(1deg); }
+            33% { transform: translateX(-8px) rotate(-0.5deg); }
+            66% { transform: translateX(8px) rotate(0.5deg); }
         }
 
         @keyframes pulsateWidth {
-            0%, 100% { width: 32px; }
-            50% { width: 44px; }
+            0%, 100% { width: 30px; }
+            50% { width: 40px; }
         }
 
         @keyframes gripPulsate {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
+            50% { transform: scale(1.06); }
         }
 
         .string {
             position: absolute;
             top: -100px;
-            width: 36px;
+            width: 32px;
             height: 280px;
             background: #000;
             z-index: 2;
             border-radius: 0 0 20px 20px;
+            box-shadow: inset -5px 0 10px rgba(255,255,255,0.02);
             animation: slither 8s ease-in-out infinite, pulsateWidth 5s ease-in-out infinite;
         }
 
@@ -227,9 +256,9 @@
 
         .string-joint {
             position: absolute;
-            top: 140px;
-            width: 60px;
-            height: 50px;
+            top: 142px;
+            width: 54px;
+            height: 46px;
             background: #000;
             border-radius: 50%;
             z-index: 3;
@@ -238,46 +267,64 @@
         }
 
         .joint-left {
-            left: calc(18% - 12px);
+            left: calc(18% - 11px);
             animation: slither 8s ease-in-out infinite, gripPulsate 4s ease-in-out infinite;
         }
         .joint-right {
-            right: calc(18% - 12px);
+            right: calc(18% - 11px);
             animation: slither 8s ease-in-out infinite, gripPulsate 4s ease-in-out infinite;
             animation-delay: -4s, -2s;
         }
 
         @keyframes containerSway {
-            0%, 100% { transform: rotate(0.4deg) translateY(0); }
-            50% { transform: rotate(-0.4deg) translateY(12px); }
+            0%, 100% { transform: rotate(0.3deg) translateY(0); }
+            50% { transform: rotate(-0.3deg) translateY(10px); }
         }
 
         .video-container {
             animation: containerSway 8s ease-in-out infinite;
             transform-origin: top center;
         }
+
+        .cool-subtitle {
+            letter-spacing: 0.4em;
+            text-shadow: 0 0 8px rgba(255,255,255,0.25);
+        }
+
+        .glow-button {
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 rgba(255,255,255,0);
+        }
+
+        .glow-button:hover {
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
-<body class="p-4 md:p-10 flex flex-col md:flex-row gap-6 h-screen">
+<body class="p-4 md:p-8 flex flex-col md:flex-row gap-6 h-screen content-container">
 
-    <canvas id="blizzard-canvas"></canvas>
+    <canvas id="ambient-canvas"></canvas>
+
+    <audio id="wind-audio" src="tt.mp3" loop></audio>
+    <audio id="music-audio" src="gh.mp3" loop></audio>
 
     <div id="lightbox" onclick="closeLightbox()">
         <img id="lightbox-img" class="lightbox-content" src="" alt="Enlarged Art">
         <p id="lightbox-quote" class="lightbox-quote"></p>
-        <button class="absolute top-8 right-8 text-white/50 hover:text-white uppercase tracking-widest text-xs">Close [ESC]</button>
+        <button class="absolute top-8 right-8 text-white/40 hover:text-white uppercase tracking-widest text-[10px] transition-colors">Close [ESC]</button>
     </div>
 
-    <div class="glass-panel w-full md:w-72 flex flex-col shrink-0">
-        <div class="p-12 border-b border-white/5 flex flex-col items-center justify-center">
+    <div class="glass-panel w-full md:w-80 flex flex-col shrink-0 rounded-2xl overflow-hidden animate__animated animate__fadeInLeft">
+        <div class="p-8 md:p-10 border-b border-white/5 flex flex-col items-center justify-center">
             <div class="animated-logo">
-                <h1 class="logo-text text-5xl text-white">THREE</h1>
-                <h1 class="logo-text text-5xl text-white">OF ME.</h1>
+                <h1 class="logo-text text-4xl md:text-5xl text-white">THREE</h1>
+                <h1 class="logo-text text-4xl md:text-5xl text-white">OF ME.</h1>
             </div>
-            <p class="text-[9px] text-gray-500 mt-6 uppercase tracking-[0.5em]">Extras</p>
+            <p class="text-[9px] text-gray-500 mt-5 uppercase tracking-[0.6em] cool-subtitle">Extras</p>
         </div>
 
-        <nav class="flex-grow py-6">
+        <nav class="flex-grow py-4">
             <div class="sidebar-item active" onclick="switchSection('art', this)">
                 <span class="text-xs font-light tracking-[0.3em] uppercase">Art Gallery</span>
             </div>
@@ -286,28 +333,28 @@
             </div>
         </nav>
 
-        <div class="p-8 border-t border-white/5">
-            <button onclick="window.history.back()" class="text-[10px] text-gray-500 hover:text-white transition-colors uppercase tracking-[0.4em] flex items-center gap-3">
-                <span class="text-lg">«</span> Back
+        <div class="p-6 md:p-8 border-t border-white/5">
+            <button id="back-button" class="text-[10px] text-gray-500 hover:text-white transition-colors uppercase tracking-[0.4em] flex items-center gap-3 w-full justify-center py-3 bg-white/5 border border-white/5 rounded-full hover:bg-white/10 glow-button">
+                <span class="text-xs">«</span> Back to Home
             </button>
         </div>
     </div>
 
-    <div class="glass-panel flex-grow overflow-hidden flex flex-col">
-        <div class="px-10 py-8 border-b border-white/5 flex justify-between items-end">
-            <h3 id="section-title" class="text-2xl font-thin tracking-[0.1em] uppercase">Art Gallery</h3>
-            <div id="section-disclaimer" class="disclaimer">Click images for information</div>
+    <div class="glass-panel flex-grow overflow-hidden flex flex-col rounded-2xl animate__animated animate__fadeIn animate__delay-1s">
+        <div class="px-8 md:px-10 py-6 md:py-8 border-b border-white/5 flex justify-between items-center bg-white/[0.01]">
+            <h3 id="section-title" class="text-xl md:text-2xl font-light tracking-[0.15em] uppercase text-white/90">Art Gallery</h3>
+            <div id="section-disclaimer" class="disclaimer hidden md:block">Click image for fragments</div>
         </div>
 
-        <div class="custom-scroll overflow-y-auto flex-grow p-10">
+        <div class="custom-scroll overflow-y-auto flex-grow p-6 md:p-10">
             <div id="art-section" class="section-content active">
-                <div id="gallery-grid" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                 </div>
             </div>
 
             <div id="cg-section" class="section-content">
                 <div class="flex flex-col items-center">
-                    <div class="video-wrapper w-full max-w-[600px]">
+                    <div class="video-wrapper w-full max-w-[500px]">
                         <div class="string string-left"></div>
                         <div class="string string-right"></div>
                         <div class="string-joint joint-left"></div>
@@ -321,12 +368,12 @@
                         </div>
                     </div>
 
-                    <div class="max-w-2xl text-center mt-12">
-                        <h4 class="text-xl font-light tracking-widest uppercase mb-4">'You'll be fine!'</h4>
-                        <p class="text-sm text-gray-400 leading-relaxed font-light">
+                    <div class="max-w-xl text-center mt-12 animate__animated animate__fadeIn">
+                        <h4 class="text-lg font-light tracking-widest uppercase mb-4 text-white/90">'You'll be fine!'</h4>
+                        <p class="text-sm text-gray-400 leading-relaxed font-light italic">
                             "You have to admit, he has a good singing voice."
                         </p>
-                        <p class="text-[10px] text-white/20 mt-4 uppercase tracking-widest">Format: 1024x1024 / Archival</p>
+                        <p class="text-[9px] text-white/20 mt-6 uppercase tracking-widest"> </p>
                     </div>
                 </div>
             </div>
@@ -338,19 +385,73 @@
             { file: 'image2.png', quote: '"A little sketch I did for when Normalcy was coming out. Mainly drew it as an excuse to promote the book series more in Discord servers and stuff if you want me to be honest"' },
             { file: 'image3.png', quote: '"A scrapped image for Amjamis- well, not scrapped per se, but I felt that I could do better. I mainly changed the hair, added the fur back to the boots, and made the eyes a little bigger to fit in a little closer with Arial and MYS."' },
             { file: 'image4.png', quote: '"Another drawing of Amjamis, this was drawn inbetween the one in the frontpage, and the image before this one. This was more closer to the final design, and while I was still trying to figure out how I wanted to shade his hair. (I still have no fucking clue.)"' },
+            { file: 'AmjamisOld.png', quote: '"Old Amjamis portrait. Other than the button, and the shortening of my overcoat, nothing has changed. I made it shorter to match with the overcoats I wear in real life, and to also make me and Arial a little more distinct from eachother."' },
+            { file: 'ArialOld.png', quote: '"Old Arial portait. Changed her boots for the 27389th time, removed the golden button because I hated how it looked, and covered more of her neck. Honestly, if it were not for the fact my style has changed so much, I would have kept this one."' },
+            { file: 'MYSOld.png', quote: '"Old MYS portrait. Honestly, his design has changed THE LEAST out of the trio. Here, he looks a little too evil, he is supposed to look a little cute, his whole thing is that he has a poker face, so making him more cute here made more sense."' },
             { file: 'image5.png', quote: '"I can see him."' },
-            { file: 'image7.png', quote: '"Sleeping with these chants were hard."'},
-            { file: 'image8.png', quote: '"I was not really grasping this new truth, this new.. part, you call it of my life very well at the beginning, but can you really blame me?"'},
-            { file: 'image9.png', quote: '"I had no fucking clue how to tell anyone, I mean.. How do you? It is a miracle I made it this far."'},
-            { file: 'ArialTux.png', quote: '"This is not one of the worst ideas you have had.."'},
-            { file: 'ArialNun.png', quote: 'Arial based on Book 2.'},
-            { file: 'AmjamisChurch.png', quote: 'Amjamis based on Book 2.'},
+            { file: 'image7.png', quote: '"Sleeping with these chants were hard."' },
+            { file: 'image8.png', quote: '"I was not really grasping this new truth, this new.. part, you call it of my life very well at the beginning, but can you really blame me?"' },
+            { file: 'image9.png', quote: '"I had no fucking clue how to tell anyone, I mean.. How do you? It is a miracle I made it this far."' },
+            { file: 'ArialTux.png', quote: '"This is not one of the worst ideas you have had.."' },
+            { file: 'ArialNun.png', quote: 'Arial based on Book 2.' },
+            { file: 'AmjamisChurch.png', quote: 'Amjamis based on Book 2.' },
+            { file: 'WandererMYS.png', quote: '"Sketch I did of MYS mid-transformation."' },
+            { file: 'ExcuseMeSir.png', quote: '"Here lies Amjamis, you can tell it is him, cuz.. Oh shit, the casket is empty.."' },
+            { file: 'MYSFLESH.png', quote: '“I may be a monster.. But I.. Am so.. Beautiful. I love myself. I’ve always loved myself."' },
+            { file: 'Deltarune.png', quote: '"You too, huh?"' },
         ];
 
         const galleryGrid = document.getElementById('gallery-grid');
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
         const lightboxQuote = document.getElementById('lightbox-quote');
+
+        // Page audio handlers
+        const windAudio = document.getElementById('wind-audio');
+        const musicAudio = document.getElementById('music-audio');
+        const backBtn = document.getElementById('back-button');
+
+        windAudio.volume = 0.3;
+        musicAudio.volume = 0.5;
+
+        function tryPlayAudio() {
+            windAudio.play().catch(() => {});
+            musicAudio.play().catch(() => {});
+        }
+
+        window.addEventListener('load', () => {
+            initParticles();
+            animate();
+            loadGallery();
+            tryPlayAudio();
+        });
+
+        window.addEventListener('click', tryPlayAudio);
+
+        function fadeOutAudio(audio, duration = 1500) {
+            const stepTime = 50;
+            const steps = duration / stepTime;
+            const volStep = audio.volume / steps;
+
+            const fadeInterval = setInterval(() => {
+                if (audio.volume - volStep > 0) {
+                    audio.volume -= volStep;
+                } else {
+                    audio.volume = 0;
+                    audio.pause();
+                    clearInterval(fadeInterval);
+                }
+            }, stepTime);
+        }
+
+        backBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            fadeOutAudio(windAudio, 1500);
+            fadeOutAudio(musicAudio, 1500);
+            setTimeout(() => {
+                window.location.href = "index.html";
+            }, 1200);
+        });
 
         function switchSection(sectionId, element) {
             document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
@@ -386,11 +487,12 @@
 
         function loadGallery() {
             galleryGrid.innerHTML = '';
+            // Match the elegant shuffling of art
             const shuffled = [...galleryData].sort(() => Math.random() - 0.5);
 
             shuffled.forEach(item => {
                 const container = document.createElement('div');
-                container.className = 'art-item group';
+                container.className = 'art-item group animate__animated animate__fadeIn';
                 const img = new Image();
                 img.src = `extras/art/${item.file}`;
                 img.alt = item.file;
@@ -403,9 +505,10 @@
             });
         }
 
-        const canvas = document.getElementById('blizzard-canvas');
+        const canvas = document.getElementById('ambient-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
+        let mouse = { x: null, y: null };
 
         function resize() {
             canvas.width = window.innerWidth;
@@ -415,21 +518,46 @@
         window.addEventListener('resize', resize);
         resize();
 
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+
+        window.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
         class Particle {
             constructor() { this.init(); }
             init() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 1.5 + 0.2;
-                this.speedX = Math.random() * 3 + 1.5;
-                this.speedY = Math.random() * 0.8 + 0.2;
-                this.opacity = Math.random() * 0.4 + 0.1;
+                this.size = Math.random() * 1.6 + 0.3;
+                this.speedX = Math.random() * 1.5 + 0.5;
+                this.speedY = Math.random() * 0.8 + 0.4;
+                this.opacity = Math.random() * 0.4 + 0.15;
             }
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
+
                 if (this.x > canvas.width) this.x = -10;
+                if (this.x < -10) this.x = canvas.width;
                 if (this.y > canvas.height) this.y = -10;
+                if (this.y < -10) this.y = canvas.height;
+
+                if (mouse.x != null) {
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+                    let maxDistance = 150;
+                    if (distance < maxDistance) {
+                        let force = (maxDistance - distance) / maxDistance;
+                        this.x -= (dx / distance) * force * 4;
+                        this.y -= (dy / distance) * force * 4;
+                    }
+                }
             }
             draw() {
                 ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
@@ -439,19 +567,22 @@
             }
         }
 
-        function createParticles() {
-            for (let i = 0; i < 200; i++) particles.push(new Particle());
+        function initParticles() {
+            particles = [];
+            const count = (canvas.width * canvas.height) / 1100;
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
         }
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
             requestAnimationFrame(animate);
         }
-
-        createParticles();
-        animate();
-        loadGallery();
     </script>
 </body>
 </html>
