@@ -240,16 +240,19 @@
 </div>
 
 <script>
+    // Added "Reignited." as requested with small note "LOVE." linked to "Reignited.html"
     const stories = [
         { title: "Times Ending.", tag: "Story I - Setup", url: "TimesEnding.html" },
         { title: "Upbringing.", tag: "Story II - Religion", url: "Upbringing.html" },
         { title: "Frozen.", tag: "Story III - Abandonment", url: "Frozen.html" },
         { title: "Normalcy.", tag: "Story IV - Return", url: "Normalcy.html" },
-        { title: "Agony.", tag: "Story V - Loss", url: "Agony.html" }
+        { title: "Agony.", tag: "Story V - Loss", url: "Agony.html" },
+        { title: "Reignited.", tag: "Story VI - Love.", url: "Reignited.html" }
     ];
 
     const carousel = document.getElementById('carousel');
-    const radius = 420;
+    // Radius of 450px looks exceptionally good with 6 items to give them ample breathing room
+    const radius = 450;
     let rotationY = 0;
     let isDragging = false;
     let startX = 0;
